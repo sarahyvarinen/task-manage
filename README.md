@@ -159,6 +159,10 @@ Your goal is to implement a CI pipeline for the Task Management System:
    - Optionally, push images to a container registry.
 
 ## Task 5. Deployment to Render.com
+
+You can choose either **Path 1 (Manual deployment & CD workflow)** or **Path 2 (Deployment using containers)** for deploying your application to Render.com. 
+
+### Path 1: Manual deployemnt & CD workflow
    1. **PostgreSQL database** 
       - Create PostgreSQL database to render.com
       - You should remember database URL (Internal Database URL) for the next step 2.
@@ -195,7 +199,7 @@ Your goal is to implement a CI pipeline for the Task Management System:
          ```
          VITE_API_URL=<BACKEND URL>/api
          ```
-   4. **CI/CD pipeline**
+   4. **Update CI/CD workflow**
       - Disable automatic deployment for both backend and frontend services in Render.com.
       - Update your CI workflow from Task 2 to include a CD (Continuous Deployment) step.
       - Configure deployment to trigger only when a new release tag is pushed.
@@ -215,6 +219,40 @@ Your goal is to implement a CI pipeline for the Task Management System:
 >  
 > Learn more: [Render Blueprints documentation](https://render.com/docs/infrastructure-as-code)
 
+### Path 2: Deployment using containers
+
+TÄMÄ OLISI VAIHTOEHTOINEN POLKU. TÄTÄ EN OLE ITSE TESTANNUT
+
+This option deploys both backend and frontend as Docker containers on Render.com.
+
+1. **Create Dockerfiles**
+   - Create a `Dockerfile` in both `backend` and `frontend` directories.
+
+2. **Build and Test Locally**
+   - Build and test docker files locally
+
+3. **Push Images to Registry**
+   - Use Docker Hub
+  
+4. **Create Services on Render.com**
+   - Create a new **Web Service** for backend:
+     - Select "Deploy an existing Docker image".
+     - Set image source to your registry.
+     - Set environment variables.
+   - Create a new **Web Service** for frontend:
+     - Use the frontend image.
+     - Set environment variables.
+
+5. **Configure Database**
+   - Create a PostgreSQL database on Render.com.
+   - Update backend environment variables with the internal database URL.
+
+6. **Update CI/CD Workflow**
+   - Add steps to build and push Docker images on release/tag.
+   - Trigger deployment on Render.com after pushing new images.
+  
+**References:**
+- [Render Docker Deployment Docs](https://render.com/docs/docker)
 
 ## Task 6. Monitoring
 - SOMETHING SIMPLE HERE: Bäkkärissä on health check url. Lokituksen monitorointi? Tämä vaatisi varmaan lisäyksi lokitukseen sovelluksessa. Jätetäänkö tämä osuus pois lopputyöstä??
