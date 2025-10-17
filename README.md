@@ -54,7 +54,7 @@ flowchart LR
    BE -->|Read/Write| DB
    DB -->|Query results| BE
 
-   BE -->|issue/verify| Auth
+   BE -->|issue/verify token| Auth
    Auth -->|token used by| BE
  ```
 
