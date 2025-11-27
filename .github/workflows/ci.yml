@@ -7,12 +7,12 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  build-test-lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.16.0] 
+        node-version: [20.x]
 
     steps:
       - name: Checkout repository
@@ -49,3 +49,30 @@ jobs:
       - name: Linttaa frontend
         working-directory: ./frontend
         run: npm run lint
+
+    
+      - name: Audit backend dependencies
+        working-directory: ./backend
+        run: npm audit --audit-level=moderate
+
+      - name: Audit frontend dependencies
+        working-directory: ./frontend
+        run: npm audit --audit-level=moderate
+
+  codeql:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
